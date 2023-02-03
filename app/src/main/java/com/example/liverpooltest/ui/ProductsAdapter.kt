@@ -14,6 +14,11 @@ import com.google.android.material.card.MaterialCardView
 
 class ProductsAdapter (var products: List<RecordDTO>, var context: Context): RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>() {
 
+    fun setFilteredList(products: List<RecordDTO>){
+        this.products = products
+        notifyDataSetChanged()
+    }
+
     inner class ProductsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         var image: ImageView
         var name: TextView

@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.liverpooltest.R
 import com.example.liverpooltest.databinding.ActivityMainBinding
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.List
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var mainActivityViewModel: MainActivityViewModel
     var productsAdapter: ProductsAdapter? = null
+    var recordsDto: List<RecordDTO>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -32,12 +36,40 @@ class MainActivity : AppCompatActivity() {
         productRecyclerView.setHasFixedSize(true)
         productRecyclerView.layoutManager = LinearLayoutManager(this)
         productsDTO.records?.let {
+            recordsDto = it
             productsAdapter = ProductsAdapter(it, this)
             productRecyclerView.adapter = productsAdapter
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    filterList(newText)
+                    return true
+                }
+
+            })
         }
 
 
 
+    }
+
+    private fun filterList(newText: String?) {
+        if (newText.isNullOrBlank()) {
+            val filteredList = ArrayList<RecordDTO>()
+            for ( i in recordsDto!!){
+                if (i.productDisplayName.lowercase(Locale.ROOT).contains(newText?:"")) {
+                    filteredList.add(i)
+                }
+            }
+            if (filteredList.isEmpty()) {
+                Toast.makeText(this, "articulo no encontrado", Toast.LENGTH_SHORT)
+            }else {
+                productsAdapter?.setFilteredList(filteredList)
+            }
+        }
     }
 
     private fun observeProducts() {
