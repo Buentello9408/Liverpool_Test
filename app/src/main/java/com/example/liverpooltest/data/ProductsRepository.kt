@@ -5,12 +5,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ProductsRepository {
-    suspend fun getProducts(pageNumber: String): ProductsListResponse {
+    suspend fun getProducts(pageNumber: String, busqueda:String): ProductsListResponse {
         return withContext(Dispatchers.IO) {
             val plpResponseEmpty = PlpResultsResponse(emptyList())
             try {
                 val response = RestClients.getRestEngine().create(ProductsService::class.java)
-                    .getProducts(pageNumber)
+                    .getProducts(busqueda, pageNumber)
                 val getResponse: ProductsListResponse = if (response.isSuccessful) {
                     response.body() ?: ProductsListResponse(response.code(),plpResponseEmpty, "No Body")
                 } else {

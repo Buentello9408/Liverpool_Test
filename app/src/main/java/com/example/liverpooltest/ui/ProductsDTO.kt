@@ -6,8 +6,8 @@ data class ProductsDTO(
 
 data class RecordDTO(
     val productDisplayName: String,
-    val listPrice: String,
-    val promoPrice: String,
+    val listPrice: Float,
+    val promoPrice: Float,
     val lgImage: String,
     val smImage: String,
     val xlImage: String,

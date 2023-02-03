@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         mainActivityViewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
         productRecyclerView = binding.productsRecyclerView
         searchView = binding.searchView
-        mainActivityViewModel.getProducts("1")
+        mainActivityViewModel.getProducts("1", "")
         observeProducts()
     }
 
@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity() {
             productRecyclerView.adapter = productsAdapter
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
+                    mainActivityViewModel.getProducts("1", query?:"")
+                    return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    filterList(newText)
-                    return true
+                    return false
                 }
 
             })

@@ -38,8 +38,8 @@ class ProductsAdapter (var products: List<RecordDTO>, var context: Context): Rec
             if (product.promoPrice.toInt() > 0) {
                 amount.setTextAppearance(context, R.style.OfPriceRedBoldLeft16)
                 amountStrike.visibility = View.VISIBLE
-                amount.text = "$ ${product.promoPrice}"
-                amountStrike.text = "$ ${product.listPrice}"
+                amount.text = "$ ${product.promoPrice.toString()}"
+                amountStrike.text = "$ ${product.listPrice.toString()}"
                 amountStrike.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             } else {
                 amount.setTextAppearance(context, R.style.OfPriceBlackBoldLeft16)

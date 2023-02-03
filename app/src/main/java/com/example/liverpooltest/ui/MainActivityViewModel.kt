@@ -16,14 +16,11 @@ class MainActivityViewModel(private val repository: ProductsRepository = Product
     private val _error = MutableLiveData<ErrorDTO>()
     val error: LiveData<ErrorDTO> = _error
 
-    fun getProducts(pageNumber: String) {
+    fun getProducts(pageNumber: String, busqueda: String) {
         viewModelScope.launch {
-            val result = repository.getProducts(pageNumber)
+            val result = repository.getProducts(pageNumber, busqueda)
+            _products.postValue(result.transform(result))
 
-            when(result.statusCode) {
-                200 -> _products.postValue(result.transform(result))
-                else ->  _error.postValue(ErrorDTO(result.statusCode, result.message))
-            }
         }
     }
 
